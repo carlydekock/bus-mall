@@ -49,17 +49,39 @@ new Product('wine-glass', 'jpg');
 
 //determine which product gets viewed
 //get random index number of product to display - use getRandomInt
-
-
+function getRandomIndex(max) {
+  return Math.floor(Math.random() * Math.floor(max));
+}
 
 //with three images - need validation
 //are each of the three products unique?
 //assign src, alt, title to image
+function renderProducts() {
+  var productOneIndex = getRandomIndex(allProducts.length);
+  var productTwoIndex = getRandomIndex(allProducts.length);
+  var productThreeIndex = getRandomIndex(allProducts.length);
 
+  //assign product info - product one
+  imageOneElement.src = allProducts[productOneIndex].src;
+  imageOneElement.alt = allProducts[productOneIndex].name;
+  imageOneElement.title = allProducts[productOneIndex].name;
+  //log the view - views start at 0 and get incremented with every view
+  allProducts[productOneIndex].views++;
 
-//assign product info
+  //assign product info - product two
+  imageTwoElement.src = allProducts[productTwoIndex].src;
+  imageTwoElement.alt = allProducts[productTwoIndex].name;
+  imageTwoElement.title = allProducts[productTwoIndex].name;
+  //log the view - views start at 0 and get incremented with every view
+  allProducts[productTwoIndex].views++;
 
-//log the view - views start at 0 and get incremented with every view
+  //assign product info - product three
+  imageThreeElement.src = allProducts[productThreeIndex].src;
+  imageThreeElement.alt = allProducts[productThreeIndex].name;
+  imageThreeElement.title = allProducts[productThreeIndex].name;
+  //log the view - views start at 0 and get incremented with every view
+  allProducts[productThreeIndex].views++;
+}
 
 
 
@@ -81,6 +103,7 @@ new Product('wine-glass', 'jpg');
 
 //executable code
 //call a function that assigns the img srcs
+renderProducts();
 
 //event listener attached to the container
 
