@@ -1,0 +1,30 @@
+body {
+  background-color: beige;
+}
+
+h1 {
+  font-size: 3em;
+  text-align: center;
+  margin: 50px;
+}
+
+h3 {
+  font-size: 2em;
+  text-align: center;
+}
+
+section {
+  width: 900px;
+  margin: auto;
+  border: 5px solid black;
+  margin-top: 15px;
+}
+
+img {
+  width: 275px;
+}
+
+ul {
+  text-align: center;
+  margin-top: 25px;
+}
