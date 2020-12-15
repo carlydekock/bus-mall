@@ -22,9 +22,16 @@ section {
 
 img {
   width: 275px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 ul {
   text-align: center;
   margin-top: 25px;
+}
+
+li {
+  margin-top: 5px;
+  font-size: 16px;
 }
