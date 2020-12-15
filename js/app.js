@@ -57,10 +57,21 @@ function getRandomIndex(max) {
 //are each of the three products unique?
 //assign src, alt, title to image
 function renderProducts() {
-  var productOneIndex = getRandomIndex(allProducts.length);
-  var productTwoIndex = getRandomIndex(allProducts.length);
-  var productThreeIndex = getRandomIndex(allProducts.length);
+  var productsToDisplay = [];
+  while (productsToDisplay.length < 3) {
+    var tempIndex = getRandomIndex(allProducts.length);
+    while (productsToDisplay.includes(tempIndex)){
+      tempIndex = getRandomIndex(allProducts.length);
+    }
+    productsToDisplay.push(tempIndex);
+  }
+  console.log(productsToDisplay);
 
+  var productOneIndex = productsToDisplay.pop();
+  var productTwoIndex = productsToDisplay.pop();
+  var productThreeIndex = productsToDisplay.pop();
+
+  // get first index
   //assign product info - product one
   imageOneElement.src = allProducts[productOneIndex].src;
   imageOneElement.alt = allProducts[productOneIndex].name;
@@ -68,6 +79,7 @@ function renderProducts() {
   //log the view - views start at 0 and get incremented with every view
   allProducts[productOneIndex].views++;
 
+  // get second index
   //assign product info - product two
   imageTwoElement.src = allProducts[productTwoIndex].src;
   imageTwoElement.alt = allProducts[productTwoIndex].name;
@@ -75,19 +87,30 @@ function renderProducts() {
   //log the view - views start at 0 and get incremented with every view
   allProducts[productTwoIndex].views++;
 
-  //assign product info - product three
+  // //assign product info - product three
   imageThreeElement.src = allProducts[productThreeIndex].src;
   imageThreeElement.alt = allProducts[productThreeIndex].name;
   imageThreeElement.title = allProducts[productThreeIndex].name;
-  //log the view - views start at 0 and get incremented with every view
+  // //log the view - views start at 0 and get incremented with every view
   allProducts[productThreeIndex].views++;
 }
 
 
 
 //event handler
-
-//keep track of which image and number of clicks, increment the correct clicks/votes property
+function handleClick(event) {
+  console.log(event);
+  // actualClicks++;
+  var clickedProduct = event.target.title;
+  console.log(clickedProduct);
+  //keep track of which image and number of clicks, increment the correct clicks/votes property
+  for (var i = 0; i < allProducts.length; i++) {
+    if (clickedProduct === allProducts[i].name) {
+      allProducts[i].votes++;
+    }
+  }
+  renderProducts();
+}
 //reassign image source properties and call function again
 
 
@@ -106,6 +129,6 @@ function renderProducts() {
 renderProducts();
 
 //event listener attached to the container
-
+myContainer.addEventListener('click', handleClick);
 
 
