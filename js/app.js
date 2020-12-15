@@ -95,12 +95,10 @@ function renderProducts() {
   allProducts[productThreeIndex].views++;
 }
 
-
-
 //event handler
 function handleClick(event) {
   console.log(event);
-  // actualClicks++;
+  actualClicks++;
   var clickedProduct = event.target.title;
   console.log(clickedProduct);
   //keep track of which image and number of clicks, increment the correct clicks/votes property
@@ -109,20 +107,25 @@ function handleClick(event) {
       allProducts[i].votes++;
     }
   }
+  //reassign image source properties and call function again
   renderProducts();
+
+  //validation for when hit max clicks
+  if (actualClicks === maxClicksAllowed) {
+    //when we hit max clicks
+    //#1. remove event listener
+    myContainer.removeEventListener('click', handleClick);
+    //#2. show results in a list
+    for (var j = 0; j < allProducts.length; j++) {
+      //create element
+      var liElement = document.createElement('li');
+      //give it content
+      liElement.textContent = `${allProducts[j].name} was viewed ${allProducts[j].views} times and clicked ${allProducts[j].votes} times`;
+      //append it to the DOM
+      resultsList.appendChild(liElement);
+    }
+  }
 }
-//reassign image source properties and call function again
-
-
-//validation for when hit max clicks
-
-//when we hit max clicks
-//#1. remove event listener
-//#2. show results in a list
-//create element
-//give it content
-//append it to the DOM
-
 
 //executable code
 //call a function that assigns the img srcs
