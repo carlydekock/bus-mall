@@ -14,24 +14,49 @@ h3 {
 }
 
 section {
-  width: 900px;
+  width: 960px;
   margin: auto;
   border: 5px solid black;
   margin-top: 15px;
 }
 
+main {
+  padding-bottom: 25px;
+}
+
 img {
-  width: 275px;
-  margin-left: 10px;
-  margin-right: 10px;
+  width: 300px;
+  height: 300px;
+  margin-left: 8px;
+  margin-right: 8px;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 
 ul {
   text-align: center;
   margin-top: 25px;
+  margin-bottom: 25px;
 }
 
 li {
   margin-top: 5px;
+  margin-bottom: 5px;
   font-size: 16px;
+}
+
+#button {
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 24px;
+  border: none;
+  background-color: salmon;
+  width: 300px;
+  margin: auto;
+  margin-top: 15px;
+}
+
+#hidden-results {
+  display: none;
 }
