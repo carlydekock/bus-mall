@@ -13,6 +13,8 @@ var imageOneElement = document.getElementById('image-one');
 var imageTwoElement = document.getElementById('image-two');
 var imageThreeElement = document.getElementById('image-three');
 var resultsList = document.getElementById('results');
+var myButton = document.getElementById('button');
+var hiddenList = document.getElementById('hidden-results');
 
 //product constructor
 //propertes = src name/alt/title views clicks
@@ -65,7 +67,7 @@ function renderProducts() {
     }
     productsToDisplay.push(tempIndex);
   }
-  console.log(productsToDisplay);
+  // console.log(productsToDisplay);
 
   var productOneIndex = productsToDisplay.pop();
   var productTwoIndex = productsToDisplay.pop();
@@ -97,10 +99,14 @@ function renderProducts() {
 
 //event handler
 function handleClick(event) {
-  console.log(event);
-  actualClicks++;
+  // console.log(event);
+  if (event.target === myContainer) {
+    alert('Click on an image, please!');
+  } else {
+    actualClicks++;
+  }
   var clickedProduct = event.target.title;
-  console.log(clickedProduct);
+  // console.log(clickedProduct);
   //keep track of which image and number of clicks, increment the correct clicks/votes property
   for (var i = 0; i < allProducts.length; i++) {
     if (clickedProduct === allProducts[i].name) {
@@ -115,7 +121,15 @@ function handleClick(event) {
     //when we hit max clicks
     //#1. remove event listener
     myContainer.removeEventListener('click', handleClick);
-    //#2. show results in a list
+    //#2. show results in a list - moved to buttonClick function to only display when clicked
+  }
+}
+
+//Create callback function for button click
+function buttonClick() {
+  if (actualClicks === maxClicksAllowed) {
+    hiddenList.style.display = 'block';
+
     for (var j = 0; j < allProducts.length; j++) {
       //create element
       var liElement = document.createElement('li');
@@ -124,9 +138,11 @@ function handleClick(event) {
       //append it to the DOM
       resultsList.appendChild(liElement);
     }
+  } else {
+    alert('Click on the products 25 times first, thank you!');
   }
+  myButton.removeEventListener('click', buttonClick);
 }
-
 
 //executable code
 //call a function that assigns the img srcs
@@ -134,5 +150,7 @@ renderProducts();
 
 //event listener attached to the container
 myContainer.addEventListener('click', handleClick);
+//event listener attached to the button to display results
+myButton.addEventListener('click', buttonClick);
 
 
