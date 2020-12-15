@@ -127,6 +127,7 @@ function handleClick(event) {
   }
 }
 
+
 //executable code
 //call a function that assigns the img srcs
 renderProducts();
