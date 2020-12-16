@@ -6,6 +6,7 @@ var allProducts = [];
 //set variable so can easily adjust max when/if needed
 var maxClicksAllowed = 25;
 var actualClicks = 0;
+var productsToDisplay = [];
 
 //get some IDs from the DOM
 var myContainer = document.getElementById('container');
@@ -59,15 +60,15 @@ function getRandomIndex(max) {
 //are each of the three products unique?
 //assign src, alt, title to image
 function renderProducts() {
-  var productsToDisplay = [];
-  while (productsToDisplay.length < 3) {
+  while (productsToDisplay.length < 6) {
     var tempIndex = getRandomIndex(allProducts.length);
     while (productsToDisplay.includes(tempIndex)){
       tempIndex = getRandomIndex(allProducts.length);
     }
-    productsToDisplay.push(tempIndex);
+    productsToDisplay.unshift(tempIndex);
+    // console.log(tempIndex);
   }
-  // console.log(productsToDisplay);
+  console.log(productsToDisplay);
 
   var productOneIndex = productsToDisplay.pop();
   var productTwoIndex = productsToDisplay.pop();
