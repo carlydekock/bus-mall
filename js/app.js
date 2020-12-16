@@ -3,14 +3,13 @@
 //global variables
 //all products array
 var allProducts = [];
-//set variable so can easily adjust max when/if needed
+//set clicks variable so can easily adjust max
 var maxClicksAllowed = 25;
 var actualClicks = 0;
 var productsToDisplay = [];
 var namesArray = [];
 var votesArray = [];
 var viewsArray = [];
-
 
 //get some IDs from the DOM
 var myContainer = document.getElementById('container');
@@ -30,34 +29,46 @@ function Product(name, src = 'jpg') {
   this.votes = 0;
   allProducts.push(this);
 }
-
-//instantiations of products
-new Product('bag', 'jpg');
-new Product('banana', 'jpg');
-new Product('bathroom', 'jpg');
-new Product('boots', 'jpg');
-new Product('breakfast', 'jpg');
-new Product('bubblegum', 'jpg');
-new Product('chair', 'jpg');
-new Product('cthulhu', 'jpg');
-new Product('dog-duck', 'jpg');
-new Product('dragon', 'jpg');
-new Product('pen', 'jpg');
-new Product('pet-sweep', 'jpg');
-new Product('scissors', 'jpg');
-new Product('shark', 'jpg');
-new Product('sweep', 'png');
-new Product('tauntaun', 'jpg');
-new Product('unicorn', 'jpg');
-new Product('usb', 'gif');
-new Product('water-can', 'jpg');
-new Product('wine-glass', 'jpg');
-
+//get from local storage, verification if already there, if not - instantiate products
+var retrievedProducts = localStorage.getItem('products');
+if (retrievedProducts) {
+  allProducts = JSON.parse(retrievedProducts);
+} else {
+  //instantiations of products
+  new Product('bag');
+  new Product('banana');
+  new Product('bathroom');
+  new Product('boots');
+  new Product('breakfast');
+  new Product('bubblegum');
+  new Product('chair');
+  new Product('cthulhu');
+  new Product('dog-duck');
+  new Product('dragon');
+  new Product('pen');
+  new Product('pet-sweep');
+  new Product('scissors');
+  new Product('shark');
+  new Product('sweep', 'png');
+  new Product('tauntaun');
+  new Product('unicorn');
+  new Product('usb', 'gif');
+  new Product('water-can');
+  new Product('wine-glass');
+}
 
 //determine which product gets viewed
 //get random index number of product to display - use getRandomInt
 function getRandomIndex(max) {
   return Math.floor(Math.random() * Math.floor(max));
+}
+
+//Create function to assign product info and log the view
+function renderProductImage (imageElement, productIndex){
+  imageElement.src = allProducts[productIndex].src;
+  imageElement.alt = allProducts[productIndex].name;
+  imageElement.title = allProducts[productIndex].name;
+  allProducts[productIndex].views++;
 }
 
 //with three images - need validation
@@ -79,27 +90,16 @@ function renderProducts() {
   var productThreeIndex = productsToDisplay.pop();
 
   // get first index
-  //assign product info - product one
-  imageOneElement.src = allProducts[productOneIndex].src;
-  imageOneElement.alt = allProducts[productOneIndex].name;
-  imageOneElement.title = allProducts[productOneIndex].name;
-  //log the view - views start at 0 and get incremented with every view
-  allProducts[productOneIndex].views++;
+  //assign product info and log views - product one
+  renderProductImage(imageOneElement, productOneIndex);
 
   // get second index
-  //assign product info - product two
-  imageTwoElement.src = allProducts[productTwoIndex].src;
-  imageTwoElement.alt = allProducts[productTwoIndex].name;
-  imageTwoElement.title = allProducts[productTwoIndex].name;
-  //log the view - views start at 0 and get incremented with every view
-  allProducts[productTwoIndex].views++;
+  //assign product info and log views - product two
+  renderProductImage(imageTwoElement, productTwoIndex);
 
-  // //assign product info - product three
-  imageThreeElement.src = allProducts[productThreeIndex].src;
-  imageThreeElement.alt = allProducts[productThreeIndex].name;
-  imageThreeElement.title = allProducts[productThreeIndex].name;
-  // //log the view - views start at 0 and get incremented with every view
-  allProducts[productThreeIndex].views++;
+  // get third index
+  // //assign product info and log views - product three
+  renderProductImage(imageThreeElement, productThreeIndex);
 }
 
 //event handler
@@ -111,7 +111,6 @@ function handleClick(event) {
     actualClicks++;
   }
   var clickedProduct = event.target.title;
-  // console.log(clickedProduct);
   //keep track of which image and number of clicks, increment the correct clicks/votes property
   for (var i = 0; i < allProducts.length; i++) {
     if (clickedProduct === allProducts[i].name) {
@@ -129,6 +128,9 @@ function handleClick(event) {
     //#2. show results in a list - moved to buttonClick function to only display when clicked
     //Render chart now that max clicks have been reached
     renderChart();
+    //#3  save to local storage to persist completed datasets
+    var stringifiedProducts = JSON.stringify(allProducts);
+    localStorage.setItem('products', stringifiedProducts);
   }
 }
 
@@ -157,9 +159,6 @@ renderProducts();
 
 //Render arrays of product names, views, and clicks
 function renderArrays() {
-  // var namesArray = [];
-  // var votesArray = [];
-  // var viewsArray = [];
   for (var i = 0; i < allProducts.length; i++){
     namesArray.push(allProducts[i].name);
     votesArray.push(allProducts[i].votes);
@@ -204,10 +203,7 @@ function renderChart(){
   });
 }
 
-
 //event listener attached to the container
 myContainer.addEventListener('click', handleClick);
 //event listener attached to the button to display results
 myButton.addEventListener('click', buttonClick);
-
-
