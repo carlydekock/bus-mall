@@ -6,6 +6,11 @@ var allProducts = [];
 //set variable so can easily adjust max when/if needed
 var maxClicksAllowed = 25;
 var actualClicks = 0;
+var productsToDisplay = [];
+var namesArray = [];
+var votesArray = [];
+var viewsArray = [];
+
 
 //get some IDs from the DOM
 var myContainer = document.getElementById('container');
@@ -18,7 +23,7 @@ var hiddenList = document.getElementById('hidden-results');
 
 //product constructor
 //propertes = src name/alt/title views clicks
-function Product(name, src = 'jpg' || 'png' || 'gif') {
+function Product(name, src = 'jpg') {
   this.name = name;
   this.src = `img/${name}.${src}`;
   this.views = 0;
@@ -59,13 +64,13 @@ function getRandomIndex(max) {
 //are each of the three products unique?
 //assign src, alt, title to image
 function renderProducts() {
-  var productsToDisplay = [];
-  while (productsToDisplay.length < 3) {
+  while (productsToDisplay.length < 6) {
     var tempIndex = getRandomIndex(allProducts.length);
-    while (productsToDisplay.includes(tempIndex)){
+    while (productsToDisplay.includes(tempIndex)) {
       tempIndex = getRandomIndex(allProducts.length);
     }
-    productsToDisplay.push(tempIndex);
+    productsToDisplay.unshift(tempIndex);
+    // console.log(tempIndex);
   }
   // console.log(productsToDisplay);
 
@@ -122,6 +127,8 @@ function handleClick(event) {
     //#1. remove event listener
     myContainer.removeEventListener('click', handleClick);
     //#2. show results in a list - moved to buttonClick function to only display when clicked
+    //Render chart now that max clicks have been reached
+    renderChart();
   }
 }
 
@@ -147,6 +154,56 @@ function buttonClick() {
 //executable code
 //call a function that assigns the img srcs
 renderProducts();
+
+//Render arrays of product names, views, and clicks
+function renderArrays() {
+  // var namesArray = [];
+  // var votesArray = [];
+  // var viewsArray = [];
+  for (var i = 0; i < allProducts.length; i++){
+    namesArray.push(allProducts[i].name);
+    votesArray.push(allProducts[i].votes);
+    viewsArray.push(allProducts[i].views);
+  }
+}
+
+//Create renderChart function - to render the chart once done clicking
+function renderChart(){
+  //Chart code from chart.js documentation
+  var ctx = document.getElementById('myChart').getContext('2d');
+  renderArrays();
+  var myChart = new Chart(ctx, { //eslint-disable-line
+    type: 'bar',
+    data: {
+      labels: namesArray,
+      datasets: [{
+        label: '# of Votes',
+        data: votesArray,
+        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+        borderColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 3
+      },
+      {
+        label: '# of Views',
+        data: viewsArray,
+        backgroundColor: 'rgba(255, 159, 64, 0.2)',
+        borderColor: 'rgba(255, 159, 64, 1)',
+        borderWidth: 3
+      }]
+    },
+    options: {
+      responsive: false,
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    }
+  });
+}
+
 
 //event listener attached to the container
 myContainer.addEventListener('click', handleClick);

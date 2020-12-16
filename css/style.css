@@ -60,3 +60,11 @@ li {
 #hidden-results {
   display: none;
 }
+
+canvas {
+  width: 960px;
+  height: 400px;
+  margin: auto;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
