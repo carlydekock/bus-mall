@@ -1,4 +1,4 @@
-# Lab 13
+# Lab 15
 
 ## BusMall
 Built an app to do market analysis for product options for startup BusMall. Displays potential products to individuals three at a time, side-by-side, and has the individual choose which product of the three they would be most likely to purchase. Once the individual has finished selecting, a chart renders to the page to display the data for number of votes and number of views for each product. There is also a button to display the number of clicks and views in a list format at the bottom of the page. Implemented local storage, so that the totals of views and clicks persist and allow for the display of aggregate totals for views and clicks for each product.
