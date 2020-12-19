@@ -1,9 +1,7 @@
 'use strict';
 
 //global variables
-//all products array
 var allProducts = [];
-//set clicks variable so can easily adjust max
 var maxClicksAllowed = 25;
 var actualClicks = 0;
 var productsToDisplay = [];
@@ -71,8 +69,7 @@ function renderProductImage (imageElement, productIndex){
   allProducts[productIndex].views++;
 }
 
-//with three images - need validation
-//are each of the three products unique?
+//with three images - need validation whether unique
 //assign src, alt, title to image
 function renderProducts() {
   while (productsToDisplay.length < 6) {
@@ -81,30 +78,24 @@ function renderProducts() {
       tempIndex = getRandomIndex(allProducts.length);
     }
     productsToDisplay.unshift(tempIndex);
-    // console.log(tempIndex);
   }
-  // console.log(productsToDisplay);
 
   var productOneIndex = productsToDisplay.pop();
   var productTwoIndex = productsToDisplay.pop();
   var productThreeIndex = productsToDisplay.pop();
 
-  // get first index
-  //assign product info and log views - product one
+  // get first index and assign info/views - product one
   renderProductImage(imageOneElement, productOneIndex);
 
-  // get second index
-  //assign product info and log views - product two
+  // get first index and assign info/views - product two
   renderProductImage(imageTwoElement, productTwoIndex);
 
-  // get third index
-  // //assign product info and log views - product three
+  // get first index and assign info/views - product three
   renderProductImage(imageThreeElement, productThreeIndex);
 }
 
 //event handler
 function handleClick(event) {
-  // console.log(event);
   if (event.target === myContainer) {
     alert('Click on an image, please!');
   } else {
@@ -123,18 +114,17 @@ function handleClick(event) {
   //validation for when hit max clicks
   if (actualClicks === maxClicksAllowed) {
     //when we hit max clicks
-    //#1. remove event listener
+    //remove event listener
     myContainer.removeEventListener('click', handleClick);
-    //#2. show results in a list - moved to buttonClick function to only display when clicked
     //Render chart now that max clicks have been reached
     renderChart();
-    //#3  save to local storage to persist completed datasets
+    //save to local storage to persist completed datasets
     var stringifiedProducts = JSON.stringify(allProducts);
     localStorage.setItem('products', stringifiedProducts);
   }
 }
 
-//Create callback function for button click
+//callback function for button click
 function buttonClick() {
   if (actualClicks === maxClicksAllowed) {
     hiddenList.style.display = 'block';
@@ -166,9 +156,9 @@ function renderArrays() {
   }
 }
 
-//Create renderChart function - to render the chart once done clicking
+//renderChart function - to render the chart once done clicking
 function renderChart(){
-  //Chart code from chart.js documentation
+  //chart code from chart.js documentation
   var ctx = document.getElementById('myChart').getContext('2d');
   renderArrays();
   var myChart = new Chart(ctx, { //eslint-disable-line
